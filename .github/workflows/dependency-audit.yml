@@ -1,28 +1,16 @@
 name: Dependency Audit
-
 on:
   push:
-    branches: [ teachlink ]
+    branches: [teachlink]
   schedule:
-    - cron: '0 9 * * 1'     # Every Monday at 9:00 UTC
-  workflow_dispatch:        # Allows you to run it manually from GitHub
-
+    - cron: "0 9 * * 1"
 jobs:
   audit:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'      # Better for modern Expo/React Native in 2026
-          cache: 'npm'
-
+          node-version: "18"
       - run: npm ci
-
-      - name: Run npm audit
-        run: npm audit --audit-level=moderate
-        continue-on-error: true     # Don't fail the whole workflow for moderate issues
+      - run: npm audit --audit-level=moderate
